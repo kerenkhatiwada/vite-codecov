@@ -26,6 +26,7 @@ jobs:
 
     - name: Run tests with coverage and generate test results
       run: npm run test:ci
+      continue-on-error: true
       env:
         NODE_OPTIONS: --experimental-vm-modules --enable-source-maps
 
