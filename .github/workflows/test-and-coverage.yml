@@ -26,10 +26,7 @@ jobs:
 
     - name: Run tests with coverage and generate test results
       run: |
-        npm run test:ci || echo "Tests failed, but coverage may still be generated"
-        echo "Checking if coverage files exist..."
-        ls -la coverage/ || echo "No coverage directory found"
-        ls -la test-report.junit.xml || echo "No test results file found"
+        npm run test:ci
       env:
         NODE_OPTIONS: --experimental-vm-modules --enable-source-maps
 
