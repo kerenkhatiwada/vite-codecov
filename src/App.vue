@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const count = ref(0)
-console.log("1")
+console.log("2")
 function increment() {
   count.value++
 }
