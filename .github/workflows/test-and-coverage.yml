@@ -31,7 +31,7 @@ jobs:
       env:
         NODE_OPTIONS: --experimental-vm-modules --enable-source-maps
 
-    - name: Upload coverage and test results to Codecov
+    - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
       with:
         files: ./coverage/lcov.info
@@ -47,7 +47,9 @@ jobs:
       if: always()
       uses: codecov/test-results-action@v1
       with:
-        file: ./test-report.junit.xml
+        files: ./test-report.junit.xml
         flags: unittests
         name: codecov-test-results
-        token: ${{ secrets.CODECOV_TOKEN }}
+        fail_ci_if_error: false
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
