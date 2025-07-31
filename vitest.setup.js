@@ -1,29 +1,27 @@
-// Polyfill for crypto.hash if not available
-if (typeof globalThis.crypto === 'undefined') {
-  const crypto = require('crypto')
-  globalThis.crypto = {
-    ...crypto.webcrypto,
-    hash: crypto.hash || function(algorithm, data) {
-      return crypto.createHash(algorithm).update(data).digest()
+// Polyfill for crypto.hash that Vue plugin needs
+import { beforeAll } from 'vitest'
+import crypto from 'crypto'
+
+// Add crypto.hash polyfill globally
+if (!crypto.hash) {
+  crypto.hash = function(algorithm, data, options) {
+    const hash = crypto.createHash(algorithm)
+    if (data) {
+      hash.update(data)
     }
+    return hash
   }
 }
 
-// Setup jsdom
-import { beforeAll } from 'vitest'
+// Make sure globalThis.crypto has the hash function
+if (!globalThis.crypto) {
+  globalThis.crypto = crypto.webcrypto || {}
+}
+
+if (!globalThis.crypto.hash) {
+  globalThis.crypto.hash = crypto.hash
+}
 
 beforeAll(() => {
-  // Ensure crypto is available
-  if (!globalThis.crypto?.hash && typeof require !== 'undefined') {
-    try {
-      const crypto = require('crypto')
-      if (!globalThis.crypto) globalThis.crypto = {}
-      globalThis.crypto.hash = crypto.hash || function(algorithm, data) {
-        return crypto.createHash(algorithm).update(data).digest()
-      }
-    } catch (e) {
-      // Fallback if crypto is not available
-      console.warn('Crypto polyfill not available')
-    }
-  }
+  // Additional setup if needed
 })
