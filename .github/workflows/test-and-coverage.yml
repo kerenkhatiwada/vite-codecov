@@ -41,14 +41,9 @@ jobs:
         disable_search: true
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-    
+
     - name: Upload test results to Codecov
-      if: always()
+      if: ${{ !cancelled() }}
       uses: codecov/test-results-action@v1
       with:
-        files: ./test-report.junit.xml
-        flags: unittests
-        name: codecov-test-results
-        fail_ci_if_error: false
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }}
