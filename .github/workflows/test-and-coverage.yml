@@ -25,8 +25,11 @@ jobs:
       run: npm ci
 
     - name: Run tests with coverage and generate test results
-      run: npm run test:ci
-      continue-on-error: true
+      run: |
+        npm run test:ci || echo "Tests failed, but coverage may still be generated"
+        echo "Checking if coverage files exist..."
+        ls -la coverage/ || echo "No coverage directory found"
+        ls -la test-report.junit.xml || echo "No test results file found"
       env:
         NODE_OPTIONS: --experimental-vm-modules --enable-source-maps
 
@@ -35,6 +38,7 @@ jobs:
       uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+
 
 
     - name: Upload test results to Codecov
