@@ -11,7 +11,7 @@ function increment() {
 <template>
   <div>
     <h1>{{ count }}</h1>
-    <button @click="increment">Click me!!</button>
+    <button @click="increment">Click me!</button>
   </div>
 </template>
 
