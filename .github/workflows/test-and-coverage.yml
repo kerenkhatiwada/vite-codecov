@@ -24,9 +24,6 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Run Sentry wizard
-      run: npx @sentry/wizard@latest -i nuxt --saas --org francisorg --project javascript-nuxt-0d
-
     - name: Run tests with coverage and generate test results
       run: |
         npm run test:ci
