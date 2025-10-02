@@ -4,7 +4,7 @@ import { ref } from 'vue'
 defineProps({
   msg: String,
 })
-
+console.log("test")
 const count = ref(0)
 </script>
 
