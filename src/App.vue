@@ -3,9 +3,7 @@ import { ref } from 'vue'
 
 const count = ref(0)
 
-console.log("18")
-console.log("19")
-console.log("20")
+console.log("test")
 function increment() {
   count.value++
 }
