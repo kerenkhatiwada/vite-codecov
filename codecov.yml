@@ -1,11 +1,15 @@
 flags:
   HelloWorld:
-    paths: 
+    paths:
       - src/components/HelloWorld.vue
     carryforward: true
   App:
-    paths: 
+    paths:
       - src/App.vue
+    carryforward: true
+  NewComponent:
+    paths:
+      - src/components/NewComponent.vue
     carryforward: true
   frontend:
     paths:
@@ -26,6 +30,10 @@ coverage:
         target: 20%
         flags:
           - App
+      NewComponent:
+        target: 90%
+        flags:
+          - NewComponent
       frontend:
         target: 25%
         flags:
