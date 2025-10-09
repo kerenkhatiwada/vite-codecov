@@ -7,6 +7,10 @@ flags:
     paths: 
       - src/App.vue
     carryforward: true
+  frontend:
+    paths:
+      - src/
+    carryforward: true
 
 coverage:
   status:
@@ -14,11 +18,6 @@ coverage:
       default:
         target: auto
         threshold: 1%
-    patch:
-      default:
-        target: 90%
-    # Individual flag statuses
-    project:
       HelloWorld:
         target: 20%
         flags:
@@ -27,7 +26,13 @@ coverage:
         target: 20%
         flags:
           - App
+      frontend:
+        target: 25%
+        flags:
+          - frontend
     patch:
+      default:
+        target: 90%
       HelloWorld:
         target: 100%
         flags:
