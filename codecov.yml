@@ -7,6 +7,10 @@ flags:
     paths: 
       - src/App.vue
     carryforward: true
+  NewComponent:
+    paths:
+      - src/components/NewComponent.vue
+    carryforward: true
   frontend:
     paths:
       - src/
@@ -26,6 +30,10 @@ coverage:
         target: 20%
         flags:
           - App
+      NewComponent:
+        target: 90%
+        flags:
+          - NewComponent
       frontend:
         target: 25%
         flags:
