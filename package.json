@@ -10,6 +10,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
+    "test:partial": "vitest run --config vitest.partial.config.js --coverage",
     "test:ci": "vitest run --coverage --reporter=default --reporter=junit --outputFile.junit=test-report.junit.xml --coverage.reportOnFailure=true"
   },
   "dependencies": {
