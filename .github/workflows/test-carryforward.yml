@@ -1,0 +1,94 @@
+name: Test Carryforward Functionality
+
+on:
+  push:
+    branches: [ test-carryforward ]
+  pull_request:
+    branches: [ test-carryforward ]
+
+jobs:
+  # First job: Run full tests to establish baseline
+  full-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run full test suite
+        run: npm run test:coverage
+      
+      - name: Upload full coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          flags: full-suite,baseline
+          name: full-coverage-baseline
+          fail_ci_if_error: false
+          verbose: true
+
+  # Second job: Run partial tests (simulates carryforward scenario)
+  partial-coverage:
+    runs-on: ubuntu-latest
+    needs: full-coverage  # Run after full coverage to simulate real scenario
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run partial test suite (excludes NewComponent)
+        run: npm run test:partial
+      
+      - name: Upload partial coverage with carryforward
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage-partial/lcov.info
+          flags: partial-suite,carryforward-test
+          name: partial-coverage-with-carryforward
+          fail_ci_if_error: false
+          verbose: true
+      
+      - name: Upload App component coverage (should have data)
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage-partial/lcov.info
+          flags: App
+          name: app-component-partial
+          fail_ci_if_error: false
+      
+      - name: Upload HelloWorld component coverage (should have data)
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage-partial/lcov.info
+          flags: HelloWorld
+          name: helloworld-component-partial
+          fail_ci_if_error: false
+      
+      # This upload will have no coverage data for NewComponent
+      # Carryforward should preserve the previous NewComponent coverage
+      - name: Upload NewComponent flag (should carryforward previous data)
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage-partial/lcov.info
+          flags: NewComponent
+          name: newcomponent-carryforward-test
+          fail_ci_if_error: false
