@@ -6,6 +6,7 @@ defineProps({
 })
 console.log("test")
 console.log("test again")
+console.log("test again again")
 
 const count = ref(0)
 </script>
